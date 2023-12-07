@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Firestore Data Entry</title>
   <!-- Include Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
   <style>
     /* Add your custom styles here */
     .modal {
@@ -79,15 +80,15 @@
 
   <script>
     // Your Firebase configuration
-    var firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
+    const firebaseConfig = {
+    apiKey: "AIzaSyCryqPjLmaGxKMLmZpz5s7H7tUCsPFTn3k",
+    authDomain: "water-bill-viewing-system.firebaseapp.com",
+    projectId: "water-bill-viewing-system",
+    storageBucket: "water-bill-viewing-system.appspot.com",
+    messagingSenderId: "873708577400",
+    appId: "1:873708577400:web:a928f93b377fc092e9838d",
+    measurementId: "G-RZ4RJ3WJW8"
+  };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     var db = firebase.firestore();
@@ -109,7 +110,24 @@
     }
 
     function addClient() {
-      // Add client to Firestore (similar to previous code)
+      var name = document.getElementById('name').value;
+      var lastname = document.getElementById('lastname').value;
+      var account = document.getElementById('account').value;
+      var address = document.getElementById('address').value;
+
+      // Add client to Firestore
+      db.collection('clients').add({
+        name: name,
+        lastname: lastname,
+        account: parseInt(account),
+        address: address
+      })
+      .then(function(docRef) {
+        console.log("Client added with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+        console.error("Error adding client: ", error);
+      });
 
       // Close the modal after adding a client
       closeModal();
@@ -130,7 +148,7 @@
             var row = tableBody.insertRow();
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);Cre
+            var cell3 = row.insertCell(2);
 
             cell1.innerHTML = data.name + ' ' + data.lastname;
             cell2.innerHTML = data.account;
@@ -146,7 +164,28 @@
 
     function addBillingDetail() {
       // Add billing detail to Firestore (similar to previous code)
+      var clientAccount = document.getElementById('clientAccount').value;
+      var bill = document.getElementById('bill').value;
+      var date = document.getElementById('date').value;
+      var datePosted = document.getElementById('datePosted').value;
+      var due = document.getElementById('due').value;
+      var usage = document.getElementById('usage').value;
 
+      // Add billing detail to Firestore
+      db.collection('billing_details').add({
+        client_account: clientAccount,
+        bill: bill,
+        date: date,
+        date_posted: datePosted,
+        due: due,
+        usage: usage
+      })
+      .then(function(docRef) {
+        console.log("Billing detail added with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+        console.error("Error adding billing detail: ", error);
+      });
       // Close the billing modal after adding a billing detail
       closeBillingModal();
     }
@@ -156,4 +195,3 @@
   </script>
 </body>
 </html>
-
