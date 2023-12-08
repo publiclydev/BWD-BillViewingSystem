@@ -8,6 +8,7 @@
   <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
     /* Add your custom styles here */
     .modal {
@@ -17,42 +18,60 @@
       left: 50%;
       transform: translate(-50%, -50%);
       padding: 20px;
+      height: fit-content;
       background-color: #fff;
       border: 1px solid #ccc;
       z-index: 1;
+    }
+
+    .modalalert {
+      display: none;
+      position: fixed;
+      width: fit-content;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      height: fit-content;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      z-index: 1;
+      text-align: center;
+    }
+
+    #clientsTable{
+      text-align: center;
+    }
+
+    #clientsTable *{
+      text-align: center;
+      border: 1px solid
+    }
+
+    .viewContainer{
+      width: 80%;
+      margin: auto;
+      margin-top: 2%;
+    }
+
+    .title{
+      margin-top: 5%;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
+  <h2 class="title">BWD - Water Bill Viewing Sytem</h2>
+
+  <div class="viewContainer">
   <!-- Client Creation Button -->
-  <button onclick="openModal()">Create Client</button>
-
-  <!-- Modal for Adding Clients -->
-  <div id="clientModal" class="modal">
-    <h2>Add Client</h2>
-    <form id="clientForm">
-      <label for="name">First Name:</label>
-      <input type="text" id="name" required>
-
-      <label for="lastname">Last Name:</label>
-      <input type="text" id="lastname" required>
-
-      <label for="account">Account:</label>
-      <input type="text" id="account" required>
-
-      <label for="address">Address:</label>
-      <input type="text" id="address" required>
-
-      <button type="button" onclick="addClient()">Add Client</button>
-      <button type="button" onclick="closeModal()">Close</button>
-    </form>
-  </div>
+  <button onclick="openModal()" class="btn btn-primary mb-4">Create Client</button>
 
   <!-- Table for Displaying Clients -->
   <h2>Clients</h2>
-  <table id="clientsTable">
-    <thead>
+  <table id="clientsTable" class="table">
+    <thead class="table-primary">
       <tr>
         <th>Name</th>
         <th>Account Number</th>
@@ -63,19 +82,83 @@
       <!-- Client data will be added here dynamically -->
     </tbody>
   </table>
+</div>
 
-  <!-- Billing Detail Creation Button -->
-  <button onclick="openBillingModal()">Add Billing Detail</button>
+    <!-- Modal for Adding Clients -->
+    <div id="clientModal" class="modal" data-bs-backdrop='static'>
+      <h2>Add Client</h2>
+      <form id="clientForm">
+        <div class="form-group">
+
+        <label for="account">Account No.:</label>
+        <input class="form-control" type="text" id="account" required>
+
+        <label for="name">First Name:</label>
+        <input class="form-control" type="text" id="name" required>
+  
+        <label for="lastname">Last Name:</label>
+        <input class="form-control" type="text" id="lastname" required>
+  
+        <label for="address">Address:</label>
+        <input class="form-control" type="text" id="address" required>
+  
+        <button class="btn btn-primary mt-3" type="button" onclick="addClient()">Add Client</button>
+        <button class="btn btn-warning mt-3" type="button" onclick="closeModal()">Close</button>
+        </div>
+      </form>
+    </div>
 
   <!-- Modal for Adding Billing Details -->
-  <div id="billingModal" class="modal">
-    <h2>Add Billing Detail</h2>
+  <div id="billingModal" class="modal" data-bs-backdrop='static'>
+    <h2>Add Bill</h2>
     <form id="billingForm">
-      <!-- Add billing detail fields here -->
+      <div class="form-group">
+        <label for="clientAccount">Client Account:</label>
+        <input class="form-control" type="text" id="clientAccount" disabled>
 
-      <button type="button" onclick="addBillingDetail()">Add Billing Detail</button>
-      <button type="button" onclick="closeBillingModal()">Close</button>
+        <label for="datePosted">Date Posted:</label>
+        <input class="form-control" type="date" id="datePosted" required>
+
+        <label for="due">Due:</label>
+        <input class="form-control" type="date" id="due" required>
+
+        <label for="usage">Consumption:</label>
+        <input class="form-control" type="text" id="usage" required>
+
+        <label for="bill">Bill:</label>
+        <input class="form-control" type="text" id="bill" required>
+
+        <button class="btn btn-success mt-3" type="button" onclick="addBillingDetail()">Add Bill</button>
+        <button class="btn btn-warning mt-3" type="button" onclick="closeBillingModal()">Close</button>
+      </div>
     </form>
+  </div>
+
+   <!-- Modal for Adding Billing Details -->
+   <div id="infoModal" class="modal" data-bs-backdrop='static'>
+    <h2>Account and Billing Information</h2>
+    <p id="fullname">Loading client name..</p>
+    <p id="fulladdress">Loading clien address..</p>
+
+    <table id="infoTable" class="table">
+      <thead class="table-primary">
+        <tr>
+          <th>Date</th>
+          <th>Bill</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Client data will be added here dynamically -->
+      </tbody>
+    </table>
+    <button class="btn btn-warning mt-3" type="button" onclick="closeInfoModal()">Close</button>
+  </div>
+
+  <!-- Modal for Adding Billing Details -->
+  <div id="notif" class="modalalert" data-bs-backdrop='static'>
+    <h2 id="alert">Loading.</h2>
+    <button class="btn btn-warning mt-3 ml-2 mr-2" type="button" onclick="closeNotifModal()">OK</button>
   </div>
 
   <script>
@@ -93,16 +176,82 @@
     firebase.initializeApp(firebaseConfig);
     var db = firebase.firestore();
 
+    var accountname = document.getElementById('fullname');
+    var   address = document.getElementById('fulladdress');
+
     function openModal() {
       document.getElementById('clientModal').style.display = 'block';
+    }
+
+    function openInfoModal(id) {
+
+
+        db.collection("clients").where("account", "==", parseInt(id)).get().then((clientsSnapshot) => {
+      if (!clientsSnapshot.empty) {
+        // Client found, fetch bill details
+        const clientId = clientsSnapshot.docs[0].id;
+        client = clientsSnapshot.docs[0].data();
+        accountname.textContent = (client.lastname+", "+client.name).toUpperCase();
+        address.textContent = client.address.toUpperCase()
+        console.log(accountname);
+
+        db.collection("billing_detail").where("client_account", "==", parseInt(id)).orderBy("date", "asc").get().then((billsSnapshot) => {
+          if (!billsSnapshot.empty) {
+              var tableBody = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+              tableBody.innerHTML = ''; 
+
+              billsSnapshot.forEach((doc) => {
+              var data = doc.data();
+              var row = tableBody.insertRow();
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+
+              cell1.innerHTML = data.date.toDate().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' });
+              cell2.innerHTML = data.bill;
+
+              // Add a button to trigger billing detail addition for this client
+              cell3.innerHTML = '<button onclick="deleteBill(\'' + doc.id + '\')" class="btn btn-danger">Delete</button>';
+            });
+          } else {
+            // No bill details found
+            //alert('No bill details found for the account number');
+          }
+        }).catch((error) => {
+          console.error("Error fetching bill details:", error);
+        });
+  
+      } else {
+        // Client not found
+        alert('Client not found for the account number');
+      }
+
+    }).catch((error) => {
+      console.error("Error fetching client information:", error);
+    });
+
+      document.getElementById('infoModal').style.display = 'block';
+    }
+
+    function closeInfoModal() {
+      document.getElementById('infoModal').style.display = 'none';
+    }
+
+    function openNotifModal() {
+      document.getElementById('notif').style.display = 'block';
+    }
+
+    function closeNotifModal() {
+      document.getElementById('notif').style.display = 'none';
     }
 
     function closeModal() {
       document.getElementById('clientModal').style.display = 'none';
     }
 
-    function openBillingModal() {
+    function openBillingModal(id) {
       document.getElementById('billingModal').style.display = 'block';
+      document.getElementById('clientAccount').value = id;
     }
 
     function closeBillingModal() {
@@ -136,6 +285,50 @@
       updateClientsTable();
     }
 
+    function deleteClient(clientId) {
+    // Confirm deletion with the user
+    var confirmDelete = confirm('Are you sure you want to delete this client?');
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    // Use the following code to delete the client from Firestore
+    db.collection('clients').doc(clientId).delete()
+      .then(function() {
+        console.log("Client successfully deleted!");
+        // Optionally, update the clients table or take other actions after deletion
+        updateClientsTable();
+        openNotifModal();
+        document.getElementById('alert').textContent = "Account deleted.";
+      })
+      .catch(function(error) {
+        console.error("Error deleting client: ", error);
+      });
+  }
+
+  function deleteBill(billId) {
+    // Confirm deletion with the user
+    var confirmDelete = confirm('Are you sure you want to delete this bill data?');
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    // Use the following code to delete the client from Firestore
+    db.collection('billing_detail').doc(billId).delete()
+      .then(function() {
+        console.log("Client successfully deleted!");
+        // Optionally, update the clients table or take other actions after deletion
+        updateClientsTable();
+        openNotifModal();
+        document.getElementById('alert').textContent = "Bill deleted.";
+      })
+      .catch(function(error) {
+        console.error("Error deleting client: ", error);
+      });
+  }
+
     function updateClientsTable() {
       // Retrieve clients from Firestore and update the table
       db.collection('clients').get()
@@ -154,7 +347,7 @@
             cell2.innerHTML = data.account;
 
             // Add a button to trigger billing detail addition for this client
-            cell3.innerHTML = '<button onclick="openBillingModal()">Add Billing Detail</button>';
+            cell3.innerHTML = '<button onclick="openInfoModal(\'' + data.account + '\')" class="btn btn-primary mr-2">info</button><button onclick="openBillingModal(\'' + data.account + '\')" class="btn btn-success mr-2">Add Bill</button><button onclick="deleteClient(\'' + doc.id + '\')" class="btn btn-danger">delete</button>';
           });
         })
         .catch((error) => {
@@ -166,25 +359,28 @@
       // Add billing detail to Firestore (similar to previous code)
       var clientAccount = document.getElementById('clientAccount').value;
       var bill = document.getElementById('bill').value;
-      var date = document.getElementById('date').value;
       var datePosted = document.getElementById('datePosted').value;
       var due = document.getElementById('due').value;
       var usage = document.getElementById('usage').value;
 
       // Add billing detail to Firestore
-      db.collection('billing_details').add({
-        client_account: clientAccount,
-        bill: bill,
-        date: date,
-        date_posted: datePosted,
-        due: due,
-        usage: usage
+      db.collection('billing_detail').add({
+        client_account: parseInt(clientAccount),
+        bill: parseFloat(bill),
+        date: firebase.firestore.Timestamp.fromDate(new Date()).toDate(),
+        date_posted: firebase.firestore.Timestamp.fromDate(new Date(datePosted)).toDate(),
+        due: firebase.firestore.Timestamp.fromDate(new Date(due)).toDate(),
+        usage: parseInt(usage)
       })
       .then(function(docRef) {
         console.log("Billing detail added with ID: ", docRef.id);
+        openNotifModal();
+        document.getElementById('alert').textContent = "Billing detail added";
       })
       .catch(function(error) {
         console.error("Error adding billing detail: ", error);
+        openNotifModal();
+        document.getElementById('alert').textContent = "Billing detail error";
       });
       // Close the billing modal after adding a billing detail
       closeBillingModal();

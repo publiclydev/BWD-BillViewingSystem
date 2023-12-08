@@ -41,7 +41,7 @@ const firebaseConfig = {
         address.textContent = client.address.toUpperCase()
         console.log(accountname);
 
-        db.collection("billing_detail").where("client_account", "==", parseInt(accountNumber)).orderBy("date", "asc").get().then((billsSnapshot) => {
+        db.collection("billing_detail").where("client_account", "==", parseInt(accountNumber)) .orderBy("date", "asc").limit(12).get().then((billsSnapshot) => {
           if (!billsSnapshot.empty) {
             // Display consumption graph and payment history
             const consumptionData = billsSnapshot.docs.map(doc => ({
@@ -71,47 +71,49 @@ const firebaseConfig = {
       }
 
       db.collection("billing_detail")
-    .where("client_account", "==", parseInt(accountNumber))
-    .orderBy("date", "desc") // Order by date in descending order
-    .limit(1) // Limit the result set to one document
-    .get()
-    .then((billsSnapshot) => {
-        if (!billsSnapshot.empty) {
-        // The first (and only) document in the result set is the latest bill
-        const latestBill = billsSnapshot.docs[0].data();
-        account.textContent = latestBill.client_account;
-        account2.textContent = latestBill.client_account;
-        bill.textContent = latestBill.bill;
-        due.textContent = latestBill.due.toDate().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' });
-        textdate.textContent = latestBill.date.toDate().toLocaleDateString('en-US', options);
-        textdate2.textContent =  latestBill.date.toDate().toLocaleDateString('en-US', options);
-        // Display or use the latest bill data as needed
-        console.log("Latest Bill:", latestBill);
+      .where("client_account", "==", parseInt(accountNumber))
+      .orderBy("date", "desc") // Order by date in descending order
+      .limit(1) // Limit the result set to one document
+      .get()
+      .then((billsSnapshot) => {
+          if (!billsSnapshot.empty) {
+          // The first (and only) document in the result set is the latest bill
+          const latestBill = billsSnapshot.docs[0].data();
+          account.textContent = latestBill.client_account;
+          account2.textContent = latestBill.client_account;
+          bill.textContent = latestBill.bill;
+          due.textContent = latestBill.due.toDate().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' });
+          textdate.textContent = latestBill.date.toDate().toLocaleDateString('en-US', options);
+          textdate2.textContent =  latestBill.date.toDate().toLocaleDateString('en-US', options);
+          // Display or use the latest bill data as needed
+          console.log("Latest Bill:", latestBill);
 
-        // Rest of your code...
-        } else {
-        // No bill details found
-        alert('No bill details found for the account number');
-        }
-    })
-    .catch((error) => {
-        console.error("Error fetching bill details:", error);
-    });
+          // Rest of your code...
+          } else {
+          // No bill details found
+          alert('No bill details found for the account number');
+          }
+      })
+      .catch((error) => {
+          console.error("Error fetching bill details:", error);
+      });
+
+      const chartDiv = document.querySelector('.content .chart');
+      const foundDiv = document.querySelector('.content .found');
+      const payDiv = document.querySelector('.content .payhistory');
+      const blankDiv = document.querySelector('.content .blank1');
+      const blank1Div = document.querySelector('.content .blank');
+      chartDiv.classList.remove('hidden');
+      foundDiv.classList.remove('hidden');
+      payDiv.classList.remove('hidden');
+      blankDiv.classList.remove('hidden');
+      blank1Div.classList.remove('hidden');
 
     }).catch((error) => {
       console.error("Error fetching client information:", error);
     });
     
-    const chartDiv = document.querySelector('.content .chart');
-    const foundDiv = document.querySelector('.content .found');
-    const payDiv = document.querySelector('.content .payhistory');
-    const blankDiv = document.querySelector('.content .blank1');
-    const blank1Div = document.querySelector('.content .blank');
-    chartDiv.classList.remove('hidden');
-    foundDiv.classList.remove('hidden');
-    payDiv.classList.remove('hidden');
-    blankDiv.classList.remove('hidden');
-    blank1Div.classList.remove('hidden');
+
     
   }
 
