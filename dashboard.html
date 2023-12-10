@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BWD - WBVS | Admin </title>
+    <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/master.css" rel="stylesheet">
+    <link href="assets/vendor/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav id="sidebar" class="active" style="border: 0;">
+            <div class="sidebar-header">
+                <img src="assets/website-icon.png" alt="bootraper logo" class="app-logo"><h4>BWD - WBVS</h4>
+            </div>
+            <ul class="list-unstyled components text-secondary">
+                <li>
+                    <a href="#dashboard" class="active" onclick="handleSidebarItemClick('dashboard')"><i class="fas fa-chart-bar"></i> Dashboard</a>
+                </li>
+                <li>
+                    <p style="margin-left: 5%; margin-bottom: -13px;">Main</p>
+                </li>
+                <li>
+                    <a href="#list-of-client" onclick="handleSidebarItemClick('list-of-client')"><i class="fas fa-file-alt"></i>List of Client</a>
+                </li>
+                <li>
+                    <a href="#tables" onclick="handleSidebarItemClick('tables')"><i class="fas fa-table"></i>Billings</a>
+                </li>
+                <li>
+                    <p style="margin-left: 5%; margin-bottom: -13px;">Maintenance</p>
+                </li>
+                <li>
+                    <a href="#list-of-users" onclick="handleSidebarItemClick('list-of-users')"><i class="fas fa-user-friends"></i>List of Users</a>
+                </li>
+                <li>
+                    <a href="#settings" onclick="handleSidebarItemClick('settings')"><i class="fas fa-cog"></i>Settings</a>
+                </li>
+                <li>
+                    <a href="#login"><i class="fas fa-power-off"></i>Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="body" class="active">
+            <nav class="navbar navbar-expand-lg navbar-pro">
+                <button type="button" id="sidebarCollapse" class="btn navbar-pro">
+                    <i class="fas fa-list-ul" style="font-size: 200%;"></i><span></span>
+                </button>
+                <h4 style="margin-left: 2%; margin-top: auto; margin-bottom: auto;">WATER BILL - VIEWING SYSTEM - ADMIN</h4>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ms-auto">
+                        
+                        <li class="nav-item">
+                            <a href="#" id="nav2">
+                                <i style="color: white; font-size: 200%;" class="fas fa-user-circle"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="content">
+                <div class="container">
+                    <div id="dynamic-content" class="row" style="display: flex; justify-content: center;">
+                        <!-- Default content or content based on default active link -->
+                        <h2>Default Content</h2>
+                    </div>
+                    <div class="row">
+                        <div class="page-footer">
+                            <img src="assets/footer.jpg" style="width: 100%;" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Info Modal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Content to display in the modal goes here -->
+                    <p>Additional information goes here...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chartsjs/Chart.min.js"></script>
+    <script src="assets/js/dashboard-charts.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <script>
+        function handleSidebarItemClick(contentId) {
+            // Remove 'active' class from all sidebar items
+            document.querySelectorAll('#sidebar ul li a').forEach(function (element) {
+                element.classList.remove('active');
+            });
+
+            // Add 'active' class to the clicked sidebar item
+            document.querySelector(`#sidebar ul li a[href="#${contentId}"]`).classList.add('active');
+
+            // Replace content in the dynamic-content div
+            var dynamicContent = document.getElementById('dynamic-content');
+            dynamicContent.innerHTML = getContent(contentId);
+        }
+
+        function getContent(contentId) {
+            // Implement logic to get content based on the clicked item
+            // For example:
+            if (contentId === 'dashboard') {
+                return '<div class="col-sm-6 col-md-6 col-lg-3 mt-3"><div class="card"><div class="content"> <div class="row"> <div class="col-sm-4"> <div class="icon-big text-center"> <i class="teal fas fa-list-ul"></i> </div> </div> <div class="col-sm-8"> <div class="detail"> <p class="detail-subtitle">Categories</p> <span class="number">0</span> </div> </div> </div> </div> </div> </div> <div class="col-sm-6 col-md-6 col-lg-3 mt-3"> <div class="card"> <div class="content"> <div class="row"> <div class="col-sm-4"> <div class="icon-big text-center"> <i class="olive fas fa-users"></i> </div> </div> <div class="col-sm-8"> <div class="detail"> <p class="detail-subtitle">Total Clients</p> <span class="number">0</span> </div> </div> </div> </div> </div> </div> <div class="col-sm-6 col-md-6 col-lg-3 mt-3"> <div class="card"> <div class="content"> <div class="row"> <div class="col-sm-4"> <div class="icon-big text-center"> <i class="violet fas fa-file-excel"></i> </div> </div> <div class="col-sm-8"> <div class="detail"> <p class="detail-subtitle">Pending Bills</p> <span class="number">0</span> </div> </div> </div> </div> </div> </div> </div>';
+            } else if (contentId === 'list-of-client') {
+                return '<div class="col-md-12 col-lg-12"> <div class="card"> <div class="card-header" style="background-color: #e1f2f2;">SYSTEM CLIENTS</div> <div class="card-body text-center" style="height: 200px; overflow-y: auto; padding: 0; background: rgb(2, 77, 174); background: linear-gradient(305deg, rgba(2, 77, 174, 1) 0%, rgba(41, 140, 198, 1) 62%, rgba(92, 222, 229, 1) 100%);" > <p class="card-title"></p> <table class="table table-hover" id="dataTables-example" width="100%"> <thead style="position: sticky; top: 0; padding-top: 0px; background: #24588c; color: white;"> <tr> <th>ACCOUNT ID</th> <th>FIRSTNAME</th> <th>LASTNAME</th> <th>ADDRESS</th> <th>ACTION</th> </tr> </thead> <tbody> <tr> <td>1</td> <td>Dakota</td> <td>Rice</td> <td>United States</td> <td> <!-- Edit button --> <button type="button" class="btn btn-primary btn-sm">Edit</button> <!-- Delete button --> <button type="button" class="btn btn-danger btn-sm">Delete</button> </td> </tr> <tr> <td>2</td> <td>Minerva</td> <td>Hooper</td> <td>Curaçao</td> <td> <!-- Edit button --> <button type="button" class="btn btn-primary btn-sm">Edit</button> <!-- Delete button --> <button type="button" class="btn btn-danger btn-sm">Delete</button> </td> </tr> </tbody> </table> </div> </div> </div>';
+            } else if (contentId === 'tables') {
+                return '<div class="col-md-12 col-lg-12"> <div class="card"> <div class="card-header" style="background-color: #e1f2f2;">CLIENTS BILLINGS</div> <div class="card-body text-center" style="height: 200px; overflow-y: auto; padding: 0; background: rgb(2, 77, 174); background: linear-gradient(305deg, rgba(2, 77, 174, 1) 0%, rgba(41, 140, 198, 1) 62%, rgba(92, 222, 229, 1) 100%);" > <p class="card-title"></p> <table class="table table-hover" id="dataTables-example" width="100%"> <thead style="position: sticky; top: 0; padding-top: 0px; background: #24588c; color: white;"> <tr> <th>ACCOUNT ID</th> <th>FIRSTNAME</th> <th>LASTNAME</th> <th>ADDRESS</th> <th>ACTION</th> </tr> </thead> <tbody> <tr> <td>1</td> <td>Dakota</td> <td>Rice</td> <td>United States</td> <td> <!-- Edit button --> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#infoModal">Info</button> </td> </tr> <tr> <td>2</td> <td>Minerva</td> <td>Hooper</td> <td>Curaçao</td> <td> <!-- Info button --> <button type="button" class="btn btn-primary btn-sm">Info</button> </td> </tr> </tbody> </table> </div> </div> </div>';
+            } else if (contentId === 'list-of-users') {
+                return '<h2>List of Users Content Coming Soon</h2>';
+            } else if (contentId === 'settings') {
+                return '<h2>Settings Content Coming Soon</h2>';
+            } else if (contentId === 'login') {
+                window.location.href = "login.html";
+            }
+        }
+
+        // Attach click event listeners to sidebar items
+        document.querySelectorAll('#sidebar ul li a').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var contentId = element.getAttribute('href').substring(1);
+                handleSidebarItemClick(contentId);
+            });
+        });
+
+        // Set the default active link and content
+        handleSidebarItemClick('dashboard');
+    </script>
+</body>
+
+</html>
