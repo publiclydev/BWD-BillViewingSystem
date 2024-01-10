@@ -1,12 +1,12 @@
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCryqPjLmaGxKMLmZpz5s7H7tUCsPFTn3k",
-    authDomain: "water-bill-viewing-system.firebaseapp.com",
-    projectId: "water-bill-viewing-system",
-    storageBucket: "water-bill-viewing-system.appspot.com",
-    messagingSenderId: "873708577400",
-    appId: "1:873708577400:web:a928f93b377fc092e9838d",
-    measurementId: "G-RZ4RJ3WJW8"
+  apiKey: "AIzaSyCryqPjLmaGxKMLmZpz5s7H7tUCsPFTn3k",
+  authDomain: "water-bill-viewing-system.firebaseapp.com",
+  projectId: "water-bill-viewing-system",
+  storageBucket: "water-bill-viewing-system.appspot.com",
+  messagingSenderId: "873708577400",
+  appId: "1:873708577400:web:a928f93b377fc092e9838d",
+  measurementId: "G-RZ4RJ3WJW8"
   };
 
   // Initialize Firebase
@@ -45,11 +45,11 @@ const firebaseConfig = {
           if (!billsSnapshot.empty) {
             // Display consumption graph and payment history
             const consumptionData = billsSnapshot.docs.map(doc => ({
-              date: doc.data().date.toDate().toLocaleDateString('en-US', options2),
+              date: doc.data().date_posted.toDate().toLocaleDateString('en-US', options2),
               usage: doc.data().usage}));
             const paymentHistory = billsSnapshot.docs.map(doc => ({
               bill: doc.data().bill,
-              date: doc.data().date.toDate().toLocaleDateString(), // Convert Firestore Timestamp to JavaScript Date
+              date: doc.data().date_posted.toDate().toLocaleDateString(), // Convert Firestore Timestamp to JavaScript Date
               date_posted: doc.data().due.toDate().toLocaleDateString()
             }));
 
